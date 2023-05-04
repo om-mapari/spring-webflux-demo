@@ -1,6 +1,7 @@
 package com.vinsguru.webfluxdemo.service;
 
 
+import com.vinsguru.webfluxdemo.dto.MultiplyRequestDto;
 import com.vinsguru.webfluxdemo.dto.Response;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -19,11 +20,9 @@ public class ReactiveMathService {
     }
 
 
-
-
     public Flux<Response> multiplicationTable(int input){
-//        Flux<Integer> range = Flux.range(1, 10);// |1,2,3|
-//        Flux<Integer> rg  = range.doOnNext(i -> ReactiveMathService.sleepSecond(1));
+//        Flux<Integer> rangeInteger = Flux.range(1, 10);// |1,2,3|
+//        Flux<Integer> rg  = rangeInteger.doOnNext(i -> ReactiveMathService.sleepSecond(1));
 //        Flux<Integer> rg2 = rg.doOnNext(i -> System.out.println("reative-math-service processing : " + i));
 //        Flux<Response> map = rg2.map(i -> new Response(i * i));
 //        return map;
@@ -42,33 +41,15 @@ public class ReactiveMathService {
         }
     }
 
-}
 
-//
-//
-//package com.vinsguru.webfluxdemo.service;
-//
-//import com.vinsguru.webfluxdemo.dto.Response;
-//import org.springframework.stereotype.Service;
-//import reactor.core.publisher.Flux;
-//import reactor.core.publisher.Mono;
-//import java.time.Duration;
-//
-//@Service
-//public class ReactiveMathService {
-//
-//    public Mono<Response> findSquare(int input){
-//        return Mono.fromSupplier(() -> input * input)
-//                .map(Response::new);
-//    }
-//
-//    public Flux<Response> multiplicationTable(int input){
-//        return Flux.range(1, 10)
-//                .delayElements(Duration.ofSeconds(1))
-//                //.doOnNext(i -> SleepUtil.sleepSeconds(1))
-//                .doOnNext(i -> System.out.println("reactive-math-service processing : " + i))
-//                .map(i -> new Response(i * input));
-//    }
-//
-//
-//}
+    public Mono<Response> multiply(Mono<MultiplyRequestDto> requestDtoMono)
+    {
+//        Mono<Integer> integerMono = requestDtoMono.map(dto -> dto.getFirst() * dto.getSecond());
+//        Mono<Response> responseMono = integerMono.map(integer -> new Response(integer));
+//        return responseMono;
+        return requestDtoMono
+                .map(dto -> dto.getFirst() * dto.getSecond())
+                .map(integer -> new Response(integer));
+
+    }
+}
